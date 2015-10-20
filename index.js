@@ -1,4 +1,5 @@
 var ProgressBar = require('progress');
+var ansi = require('ansi-styles');
 var webpack = require('webpack');
 
 require('object.assign').shim();
