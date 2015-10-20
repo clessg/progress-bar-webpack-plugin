@@ -1,14 +1,26 @@
 var ProgressBar = require('progress');
 var webpack = require('webpack');
 
-module.exports = function ProgressBarPlugin() {
-  var bar = new ProgressBar('  build [:bar] :percent', {
+require('object.assign').shim();
+
+module.exports = function ProgressBarPlugin(options) {
+  options = options || {};
+
+  var barFormat = options.format || '  build [:bar] :percent';
+
+  delete options.format;
+  delete options.total;
+  delete options.stream;
+
+  var barOptions = Object.assign({
     complete: '=',
     incomplete: ' ',
     width: 20,
     total: 100,
     clear: true
-  });
+  }, options);
+
+  var bar = new ProgressBar(barFormat, barOptions);
 
   var isRunning = false;
   var startTime = 0;

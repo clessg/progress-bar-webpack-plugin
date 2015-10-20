@@ -24,6 +24,7 @@
   "homepage": "https://github.com/clessg/progress-bar-webpack-plugin#readme",
   "dependencies": {
     "ansi-styles": "^2.1.0",
+    "object.assign": "^4.0.1",
     "progress": "^1.1.8"
   },
   "peerDependencies": {
