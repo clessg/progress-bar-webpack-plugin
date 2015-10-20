@@ -1,0 +1,30 @@
+{
+  "name": "progress-bar-webpack-plugin",
+  "version": "1.0.0",
+  "description": "A progress bar for Webpack.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/clessg/progress-bar-webpack-plugin.git"
+  },
+  "keywords": [
+    "webpack",
+    "plugin",
+    "progress",
+    "bar"
+  ],
+  "author": "Chris Gaudreau <chris@crystala.net> (https://github.com/clessg)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/clessg/progress-bar-webpack-plugin/issues"
+  },
+  "homepage": "https://github.com/clessg/progress-bar-webpack-plugin#readme",
+  "dependencies": {
+    "ansi-styles": "^2.1.0",
+    "progress": "^1.1.8",
+    "webpack": "^1.12.2"
+  }
+}
