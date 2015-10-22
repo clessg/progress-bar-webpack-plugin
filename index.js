@@ -1,5 +1,6 @@
 var ProgressBar = require('progress');
-var ansi = require('ansi-styles');
+var chalk = require('chalk');
+var _ = require('lodash');
 var webpack = require('webpack');
 
 require('object.assign').shim();
@@ -7,7 +8,12 @@ require('object.assign').shim();
 module.exports = function ProgressBarPlugin(options) {
   options = options || {};
 
-  var barFormat = options.format || '  build [:bar] :percent';
+  var isInteractive = process.stdout.isTTY;
+
+  var barLeft = chalk.bold('[');
+  var barRight = chalk.bold(']');
+  var preamble = chalk.cyan.bold('  build ') + barLeft;
+  var barFormat = options.format || preamble + ':bar' + barRight + chalk.green.bold(' :percent');
 
   delete options.format;
   delete options.total;
@@ -16,7 +22,7 @@ module.exports = function ProgressBarPlugin(options) {
   var barOptions = Object.assign({
     complete: '=',
     incomplete: ' ',
-    width: 20,
+    width: 40,
     total: 100,
     clear: true
   }, options);
@@ -25,26 +31,46 @@ module.exports = function ProgressBarPlugin(options) {
 
   var isRunning = false;
   var startTime = 0;
+  var lastPercent = 0;
 
   return new webpack.ProgressPlugin(function (percent) {
-    bar.update(percent);
+    if (!isRunning) {
+      if (lastPercent !== 0) {
+        process.stdout.write('\n');
+      }
+
+      if (!isInteractive) {
+        process.stdout.write(preamble);
+      }
+    }
+
+    var newPercent = Math.ceil(percent * barOptions.width);
+
+    if (lastPercent !== newPercent && newPercent > lastPercent) {
+      if (isInteractive) {
+        bar.update(percent);
+      } else {
+        process.stdout.write(_.repeat('=', newPercent - lastPercent));
+      }
+
+      lastPercent = newPercent;
+    }
 
     if (!isRunning) {
       isRunning = true;
       startTime = new Date;
+      lastPercent = 0;
     } else if (percent === 1) {
       var now = new Date;
 
-      console.log(
-        '\n' +
-        ansi.bold.open + ansi.green.open +
-        'Build completed in',
-        (now - startTime) / 1000 + 's',
-        ansi.green.close + ansi.bold.close,
-        '\n'
-      );
+      if (isInteractive) {
+        bar.terminate();
+      } else {
+        process.stdout.write(barRight + '\n');
+      }
 
-      bar.terminate();
+      console.log(chalk.green.bold('Build completed in', (now - startTime) / 1000 + 's'), '\n');
+
       isRunning = false;
     }
   });

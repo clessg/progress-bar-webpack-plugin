@@ -1,5 +1,5 @@
 # progress-bar-webpack-plugin
-![progress-bar-webpack-plugin](http://i.imgur.com/wGvdIcr.gif)
+![progress-bar-webpack-plugin](http://i.imgur.com/OIP1gnj.gif)
 
 ## Installation
 
@@ -43,14 +43,18 @@ The `format` option accepts the following tokens:
 
 The default format uses the `:bar` and `:percent` tokens.
 
+Use [chalk](https://github.com/chalk/chalk) to sprinkle on a few colors.
+
 To include the time elapsed and prevent the progress bar from being cleared on build completion:
 
 ```javascript
 new ProgressBarPlugin({
-  format: '  build [:bar] :percent (:elapsed seconds)',
+  format: '  build [:bar] ' + chalk.green.bold(':percent') + ' (:elapsed seconds)',
   clear: false
 })
 ```
+
+All options other than `width` will be ignored in a non-TTY context (`process.stdout.isTTY` is `false`).
 
 ## License
 
