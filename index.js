@@ -22,7 +22,7 @@ module.exports = function ProgressBarPlugin(options) {
   var barOptions = Object.assign({
     complete: '=',
     incomplete: ' ',
-    width: 40,
+    width: 20,
     total: 100,
     clear: true
   }, options);
