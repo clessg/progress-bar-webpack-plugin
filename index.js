@@ -46,7 +46,7 @@ module.exports = function ProgressBarPlugin(options) {
 
     var newPercent = Math.ceil(percent * barOptions.width);
 
-    if (lastPercent !== newPercent && newPercent > lastPercent) {
+    if (lastPercent !== newPercent) {
       if (isInteractive) {
         bar.update(percent);
       } else {
