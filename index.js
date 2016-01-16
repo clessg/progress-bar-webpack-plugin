@@ -49,11 +49,14 @@ module.exports = function ProgressBarPlugin(options) {
     if (lastPercent !== newPercent) {
       if (isInteractive) {
         bar.update(percent);
+        lastPercent = newPercent;
       } else {
         process.stdout.write(_.repeat('=', newPercent - lastPercent));
-      }
 
-      lastPercent = newPercent;
+        if (lastPercent < newPercent) {
+          lastPercent = newPercent;
+        }
+      }
     }
 
     if (!isRunning) {
