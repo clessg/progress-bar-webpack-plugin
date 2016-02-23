@@ -32,6 +32,7 @@ Accepts almost all of the same options as [node-progress](https://github.com/tj/
 - `renderThrottle` minimum time between updates in milliseconds defaulting to 16
 - `clear` option to clear the bar on completion defaulting to false
 - `callback` optional function to call when the progress bar completes
+- `summary` option to show summary of time taken default to true
 
 The `format` option accepts the following tokens:
 
