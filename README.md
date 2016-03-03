@@ -56,8 +56,6 @@ new ProgressBarPlugin({
 })
 ```
 
-All options other than `width` will be ignored in a non-TTY context (`process.stdout.isTTY` is `false`).
-
 ## License
 
 MIT
