@@ -9,7 +9,11 @@ module.exports = function ProgressBarPlugin(options) {
   options = options || {};
 
   var stream = options.stream || process.stderr;
-  var isInteractive = stream && stream.isTTY;
+  var enabled = stream && stream.isTTY;
+
+  if (!enabled) {
+    return function () {};
+  }
 
   var barLeft = chalk.bold('[');
   var barRight = chalk.bold(']');
@@ -32,54 +36,36 @@ module.exports = function ProgressBarPlugin(options) {
 
   var bar = new ProgressBar(barFormat, barOptions);
 
-  var isRunning = false;
+  var running = false;
   var startTime = 0;
   var lastPercent = 0;
 
   return new webpack.ProgressPlugin(function (percent) {
-    if (!isRunning) {
-      if (lastPercent !== 0) {
-        stream.write('\n');
-      }
-
-      if (!isInteractive) {
-        stream.write(preamble);
-      }
+    if (!running && lastPercent !== 0) {
+      stream.write('\n');
     }
 
     var newPercent = Math.ceil(percent * barOptions.width);
 
     if (lastPercent !== newPercent) {
-      if (isInteractive) {
-        bar.update(percent);
-        lastPercent = newPercent;
-      } else {
-        stream.write(_.repeat('=', newPercent - lastPercent));
-
-        if (lastPercent < newPercent) {
-          lastPercent = newPercent;
-        }
-      }
+      bar.update(percent);
+      lastPercent = newPercent;
     }
 
-    if (!isRunning) {
-      isRunning = true;
+    if (!running) {
+      running = true;
       startTime = new Date;
       lastPercent = 0;
     } else if (percent === 1) {
       var now = new Date;
 
-      if (isInteractive) {
-        bar.terminate();
-      } else {
-        stream.write(barRight + '\n');
-      }
+      bar.terminate();
 
       if (summary) {
         stream.write(chalk.green.bold('Build completed in ' + (now - startTime) / 1000 + 's') + '\n\n');
       }
 
-      isRunning = false;
+      running = false;
     }
   });
 };
