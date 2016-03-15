@@ -71,7 +71,7 @@ module.exports = function ProgressBarPlugin(options) {
       } else if (summaryContent) {
         stream.write(summaryContent + '(' + buildTime + ')');
       } else if (customSummary) {
-        customSummary.bind(buildTime);
+        customSummary(buildTime);
       }
 
       running = false;
