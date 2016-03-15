@@ -66,11 +66,14 @@ module.exports = function ProgressBarPlugin(options) {
       bar.terminate();
       
       var buildTime = (now - startTime) / 1000 + 's';
+      
       if (summary) {
         stream.write(chalk.green.bold('Build completed in ' + buildTime + '\n\n'));
       } else if (summaryContent) {
         stream.write(summaryContent + '(' + buildTime + ')');
-      } else if (customSummary) {
+      }
+      
+      if (customSummary) {
         customSummary(buildTime);
       }
 
