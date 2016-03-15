@@ -45,7 +45,7 @@ module.exports = function ProgressBarPlugin(options) {
   var lastPercent = 0;
 
   return new webpack.ProgressPlugin(function (percent) {
-    if (!running && lastPercent !== 0) {
+    if (!running && lastPercent !== 0 && !customSummary) {
       stream.write('\n');
     }
 
