@@ -20,11 +20,13 @@ module.exports = function ProgressBarPlugin(options) {
   var preamble = chalk.cyan.bold('  build ') + barLeft;
   var barFormat = options.format || preamble + ':bar' + barRight + chalk.green.bold(' :percent');
   var summary = options.summary !== false;
+  var summaryContent = options.summaryContent;
 
   delete options.format;
   delete options.total;
   delete options.stream;
   delete options.summary;
+  delete options.summaryContent;
 
   var barOptions = Object.assign({
     complete: '=',
@@ -62,7 +64,12 @@ module.exports = function ProgressBarPlugin(options) {
       bar.terminate();
 
       if (summary) {
-        stream.write(chalk.green.bold('Build completed in ' + (now - startTime) / 1000 + 's') + '\n\n');
+        var buildTime = (now - startTime) / 1000 + 's';
+        if (!summaryContent) {
+          stream.write(chalk.green.bold('Build completed in ' + buildTime + '\n\n'));
+        } else {
+          stream.write(summaryContent + '(' + buildTime + ')');
+        }
       }
 
       running = false;
