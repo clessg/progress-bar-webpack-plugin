@@ -34,6 +34,8 @@ Accepts almost all of the same options as [node-progress](https://github.com/tj/
 - `callback` optional function to call when the progress bar completes
 - `stream` the output stream defaulting to stderr
 - `summary` option to show summary of time taken defaulting to true
+- `summaryContent` optional custom summary message if summary option is false
+- `customSummary` optional function to display a custom summary (passed build time)
 
 The `format` option accepts the following tokens:
 
