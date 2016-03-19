@@ -20,11 +20,15 @@ module.exports = function ProgressBarPlugin(options) {
   var preamble = chalk.cyan.bold('  build ') + barLeft;
   var barFormat = options.format || preamble + ':bar' + barRight + chalk.green.bold(' :percent');
   var summary = options.summary !== false;
+  var summaryContent = options.summaryContent;
+  var customSummary = options.customSummary;
 
   delete options.format;
   delete options.total;
   delete options.stream;
   delete options.summary;
+  delete options.summaryContent;
+  delete options.customSummary;
 
   var barOptions = Object.assign({
     complete: '=',
@@ -41,7 +45,7 @@ module.exports = function ProgressBarPlugin(options) {
   var lastPercent = 0;
 
   return new webpack.ProgressPlugin(function (percent) {
-    if (!running && lastPercent !== 0) {
+    if (!running && lastPercent !== 0 && !customSummary) {
       stream.write('\n');
     }
 
@@ -60,9 +64,17 @@ module.exports = function ProgressBarPlugin(options) {
       var now = new Date;
 
       bar.terminate();
-
+      
+      var buildTime = (now - startTime) / 1000 + 's';
+      
       if (summary) {
-        stream.write(chalk.green.bold('Build completed in ' + (now - startTime) / 1000 + 's') + '\n\n');
+        stream.write(chalk.green.bold('Build completed in ' + buildTime + '\n\n'));
+      } else if (summaryContent) {
+        stream.write(summaryContent + '(' + buildTime + ')');
+      }
+      
+      if (customSummary) {
+        customSummary(buildTime);
       }
 
       running = false;
