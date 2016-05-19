@@ -44,6 +44,7 @@ The `format` option accepts the following tokens:
 - `:total` total ticks
 - `:elapsed` time elapsed in seconds
 - `:percent` completion percentage
+- `:msg` current progress message
 
 The default format uses the `:bar` and `:percent` tokens.
 

@@ -1,6 +1,5 @@
 var ProgressBar = require('progress');
 var chalk = require('chalk');
-var _ = require('lodash');
 var webpack = require('webpack');
 
 require('object.assign').shim();
@@ -44,7 +43,7 @@ module.exports = function ProgressBarPlugin(options) {
   var startTime = 0;
   var lastPercent = 0;
 
-  return new webpack.ProgressPlugin(function (percent) {
+  return new webpack.ProgressPlugin(function (percent, msg) {
     if (!running && lastPercent !== 0 && !customSummary) {
       stream.write('\n');
     }
@@ -52,7 +51,9 @@ module.exports = function ProgressBarPlugin(options) {
     var newPercent = Math.ceil(percent * barOptions.width);
 
     if (lastPercent !== newPercent) {
-      bar.update(percent);
+      bar.update(percent, {
+        msg: msg
+      });
       lastPercent = newPercent;
     }
 
