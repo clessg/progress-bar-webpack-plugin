@@ -63,11 +63,10 @@ module.exports = function ProgressBarPlugin(options) {
       lastPercent = 0;
     } else if (percent === 1) {
       var now = new Date;
+      var buildTime = (now - startTime) / 1000 + 's';
 
       bar.terminate();
-      
-      var buildTime = (now - startTime) / 1000 + 's';
-      
+
       if (summary) {
         stream.write(chalk.green.bold('Build completed in ' + buildTime + '\n\n'));
       } else if (summaryContent) {
