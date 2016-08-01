@@ -70,9 +70,9 @@ module.exports = function ProgressBarPlugin(options) {
       if (summary) {
         stream.write(chalk.green.bold('Build completed in ' + buildTime + '\n\n'));
       } else if (summaryContent) {
-        stream.write(summaryContent + '(' + buildTime + ')');
+        stream.write(summaryContent + '(' + buildTime + ')\n\n');
       }
-      
+
       if (customSummary) {
         customSummary(buildTime);
       }
