@@ -24,7 +24,6 @@ module.exports = function ProgressBarPlugin(options) {
 
   delete options.format;
   delete options.total;
-  delete options.stream;
   delete options.summary;
   delete options.summaryContent;
   delete options.customSummary;
