@@ -47,12 +47,10 @@ module.exports = function ProgressBarPlugin(options) {
       stream.write('\n');
     }
 
-    var newPercent = Math.ceil(percent * barOptions.width);
+    var newPercent = Math.floor(percent * barOptions.width);
 
     if (lastPercent !== newPercent) {
-      bar.update(percent, {
-        msg: msg
-      });
+      bar.update(percent);
       lastPercent = newPercent;
     }
 
