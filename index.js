@@ -49,7 +49,7 @@ module.exports = function ProgressBarPlugin(options) {
 
     var newPercent = Math.ceil(percent * barOptions.width);
 
-    if (lastPercent !== newPercent) {
+    if (lastPercent < newPercent || newPercent === 0) {
       bar.update(percent, {
         msg: msg
       });
