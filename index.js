@@ -42,17 +42,15 @@ module.exports = function ProgressBarPlugin(options) {
   var startTime = 0;
   var lastPercent = 0;
 
-  return new webpack.ProgressPlugin(function (percent, msg) {
+  return new webpack.ProgressPlugin(function (percent) {
     if (!running && lastPercent !== 0 && !customSummary) {
       stream.write('\n');
     }
 
-    var newPercent = Math.ceil(percent * barOptions.width);
+    var newPercent = Math.floor(percent * barOptions.width);
 
     if (lastPercent < newPercent || newPercent === 0) {
-      bar.update(percent, {
-        msg: msg
-      });
+      bar.update(percent);
       lastPercent = newPercent;
     }
 
