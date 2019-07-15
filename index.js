@@ -2,8 +2,6 @@ var ProgressBar = require('progress');
 var chalk = require('chalk');
 var webpack = require('webpack');
 
-require('object.assign').shim();
-
 module.exports = function ProgressBarPlugin(options) {
   options = options || {};
 
@@ -23,7 +21,6 @@ module.exports = function ProgressBarPlugin(options) {
   var customSummary = options.customSummary;
 
   delete options.format;
-  delete options.total;
   delete options.summary;
   delete options.summaryContent;
   delete options.customSummary;
@@ -31,7 +28,6 @@ module.exports = function ProgressBarPlugin(options) {
   var barOptions = Object.assign({
     complete: '=',
     incomplete: ' ',
-    width: 20,
     total: 100,
     clear: true
   }, options);
@@ -47,7 +43,7 @@ module.exports = function ProgressBarPlugin(options) {
       stream.write('\n');
     }
 
-    var newPercent = Math.floor(percent * barOptions.width);
+    var newPercent = Math.floor(percent * barOptions.total);
 
     if (lastPercent < newPercent || newPercent === 0) {
       bar.update(percent, {
