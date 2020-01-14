@@ -2,8 +2,6 @@ var ProgressBar = require('progress');
 var chalk = require('chalk');
 var webpack = require('webpack');
 
-require('object.assign').shim();
-
 module.exports = function ProgressBarPlugin(options) {
   options = options || {};
 
