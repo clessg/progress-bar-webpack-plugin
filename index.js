@@ -39,8 +39,13 @@ module.exports = function ProgressBarPlugin(options) {
   var running = false;
   var startTime = 0;
   var lastPercent = 0;
+  var terminated = false;
 
   return new webpack.ProgressPlugin(function (percent, msg) {
+    if (terminated) {
+      return;
+    }
+
     if (!running && lastPercent !== 0 && !customSummary) {
       stream.write('\n');
     }
@@ -76,6 +81,7 @@ module.exports = function ProgressBarPlugin(options) {
       }
 
       running = false;
+      terminated = true;
     }
   });
 };
